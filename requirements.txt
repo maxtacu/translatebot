@@ -1,2 +1,4 @@
-googletrans==2.4.0
-pyTelegramBotAPI==3.6.7
+googletrans
+pyTelegramBotAPI
+emoji
+langdetect
