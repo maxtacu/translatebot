@@ -20,14 +20,14 @@ def start(message):
 @bot.channel_post_handler(func=lambda message: True, content_types=["text"])
 def message(message):
     try:
-        bot.send_message(message.chat.id, translate(message.text))
+        bot.send_message(message.chat.id, translate(message.text), disable_notification=True)
     except:
         logger.error("Fatal error in channel handler", exc_info=True)
 
 @bot.channel_post_handler(func=lambda message: True, content_types=["photo", "video", "document"])
 def message(message):
     try:
-        bot.send_message(message.chat.id, translate(message.caption))
+        bot.send_message(message.chat.id, translate(message.caption), disable_notification=True)
     except:
         logger.error("Fatal error in channel handler", exc_info=True)
 
