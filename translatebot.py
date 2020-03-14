@@ -24,7 +24,7 @@ def message(message):
     except:
         logger.error("Fatal error in channel handler", exc_info=True)
 
-@bot.channel_post_handler(func=lambda message: True, content_types=["photo", "video"])
+@bot.channel_post_handler(func=lambda message: True, content_types=["photo", "video", "document"])
 def message(message):
     try:
         bot.send_message(message.chat.id, translate(message.caption))
@@ -38,7 +38,7 @@ def message(message):
     except:
         logger.error("Fatal error in message handler", exc_info=True)
 
-@bot.message_handler(func=lambda message: True, content_types=["photo", "video"])
+@bot.message_handler(func=lambda message: True, content_types=["photo", "video", "document"])
 def message(message):
     try:
         bot.send_message(message.chat.id, translate(message.caption))
