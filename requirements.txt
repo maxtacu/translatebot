@@ -2,3 +2,4 @@ googletrans
 pyTelegramBotAPI
 emoji
 langdetect
+flask
