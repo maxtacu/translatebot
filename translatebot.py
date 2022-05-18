@@ -5,17 +5,10 @@ import config
 import logging
 import emoji
 import re
-from flask import Flask, request
 
-
-secret = 'translatebot'
-url = 'https://tmax.pythonanywhere.com/' + secret
-
-logging.basicConfig(filename='bot.log',level=logging.ERROR)
+logging.basicConfig(level=logging.ERROR)
 logger = logging.getLogger(__name__)
 bot = telebot.TeleBot(config.telegram["token"], threaded=False)
-bot.remove_webhook()
-bot.set_webhook(url=url, max_connections=10, allowed_updates=["message", "channel_post"])
 translator = Translator(service_urls=config.google["service_urls"])
 
 def remove_emoji(text):
@@ -25,22 +18,17 @@ def remove_emoji(text):
 
 def translate(text):
     cleantext = remove_emoji(text)
-    if detect(cleantext) != 'en':
+    if detect(cleantext):
         result = translator.translate(cleantext, dest='en')
         return result.text
     else:
-        return
+        return None
 
-app = Flask(__name__)
-@app.route('/'+secret, methods=['POST'])
-def webhook():
-    update = telebot.types.Update.de_json(request.stream.read().decode('utf-8'))
-    bot.process_new_updates([update])
-    return 'ok', 200
-
-@app.route('/', methods=['GET'])
-def healthcheck():
-    return 'ok', 200
+def detect_en(text):
+    if detect(text) != 'en':
+        return True
+    else:
+        return False
 
 @bot.message_handler(commands=['start'])
 def start(message):
@@ -49,31 +37,41 @@ def start(message):
 @bot.channel_post_handler(func=lambda message: True, content_types=["text"])
 def channel_text_post(message):
     try:
-        bot.send_message(message.chat.id, translate(message.text), disable_notification=True)
+        if detect_en(remove_emoji(message.text)):
+            bot.reply_to(message, translate(message.text), disable_notification=True)
+        else:
+            pass
     except:
         logger.error("Fatal error in channel handler", exc_info=True)
 
 @bot.channel_post_handler(func=lambda message: True, content_types=["photo", "video", "document"])
 def channel_media_post(message):
     try:
-        bot.send_message(message.chat.id, translate(message.caption), disable_notification=True)
+        if detect_en(remove_emoji(message.text)):
+            bot.reply_to(message, translate(message.caption), disable_notification=True)
+        else:
+            pass
     except:
         logger.error("Fatal error in channel handler", exc_info=True)
 
 @bot.message_handler(func=lambda message: True, content_types=["text"])
 def message_text_handler(message):
     try:
-        bot.send_message(message.chat.id, translate(message.text))
+        if detect_en(remove_emoji(message.text)):
+            bot.reply_to(message, translate(message.text))
+        else:
+            pass
     except:
         logger.error("Fatal error in message handler", exc_info=True)
 
 @bot.message_handler(func=lambda message: True, content_types=["photo", "video", "document"])
 def message_media_handler(message):
     try:
-        bot.send_message(message.chat.id, translate(message.caption))
+        if detect_en(remove_emoji(message.text)):
+            bot.reply_to(message, translate(message.caption))
+        else:
+            pass
     except:
         logger.error("Fatal error in message handler", exc_info=True)
 
-
-
-
+bot.infinity_polling()
