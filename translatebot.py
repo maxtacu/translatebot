@@ -25,7 +25,7 @@ def translate(text):
         return None
 
 def detect_en(text):
-    if detect(text) != 'en':
+    if detect(text) == 'ru':
         return True
     else:
         return False
