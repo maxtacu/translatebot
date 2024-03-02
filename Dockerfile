@@ -1,4 +1,4 @@
-FROM python:3.11
+FROM python:3.11.8-alpine3.18
 
 WORKDIR /usr/translatebot
 
