@@ -1,5 +1,5 @@
 certifi==2024.2.2
-chardet==3.0.4
+chardet==5.2.0
 charset-normalizer==3.3.2
 deepl==1.17.0
 emoji==2.10.1
