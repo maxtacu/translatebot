@@ -1,9 +1,6 @@
 # Telegram "Google Translate" bot written in Python
 
-Bot link: https://t.me/googletranslatepybot
-
-This bot was inspired by a wish to make my personal [blog-channel](https://t.me/maxtacu_blog) understandable 
-for my english-speaking colleagues and friends. 
+This bot was inspired by a wish to make my personal blog-channel understandable for my english-speaking colleagues and friends. 
 
 Bot translates any text from any language to English. This text could be a 
 direct message, channel post or any photo/video caption. 
@@ -23,6 +20,6 @@ export TOKEN='your-token-value'
 Or you can set it explicitly in the `config.py` file.
 And then run the python script:
 ```
-python translate.py
+python translatebot.py
 ```
 Bot writes all occurred exceptions to the log file `bot.log`
