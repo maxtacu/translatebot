@@ -1,8 +1,14 @@
 import os
+from dotenv import load_dotenv
+
+load_dotenv() 
 
 telegram = {
     "token":  os.getenv(
-        "TOKEN", "telegramtokenvalue"
+        "TOKEN", "xxxxxxxxxxx"
+    ),
+    "deepl_api_key": os.getenv(
+        "DEEPL_API_KEY", "xxxxxxxxxxx"
     )
 }
 

@@ -3,3 +3,4 @@ key
 .idea/
 __pycache__/
 *.log
+.env
