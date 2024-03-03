@@ -3,7 +3,7 @@ chardet==3.0.4
 charset-normalizer==3.3.2
 deepl==1.17.0
 emoji==2.10.1
-googletrans==3.0.0
+googletrans==4.0.0rc1
 h11==0.9.0
 h2==3.2.0
 hpack==3.0.0
@@ -14,6 +14,7 @@ hyperframe==5.2.0
 idna==2.10
 langdetect==1.0.9
 pyTelegramBotAPI==4.16.1
+python-dotenv==1.0.1
 requests==2.31.0
 rfc3986==1.5.0
 six==1.16.0
