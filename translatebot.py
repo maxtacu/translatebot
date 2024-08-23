@@ -1,17 +1,16 @@
-from googletrans import Translator
 import telebot
 import config
 import logging
 import emoji
 import re
 import deepl
+from lingua import Language, LanguageDetectorBuilder
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 bot = telebot.TeleBot(config.telegram["token"], threaded=False)
 
-google_translator = Translator(service_urls=config.google["service_urls"])
-deepl_translator = deepl.Translator(config.telegram["deepl_api_key"])
+deepl_translator = deepl.Translator(config.deepl["token"])
 
 CAPTION_LIMIT = 1024
 TEXT_LIMIT = 4096
@@ -20,20 +19,19 @@ def remove_emoji(text):
     result = emoji.demojize(text)
     result = re.sub(':.*?:', '', result)
     return result
-
-def google_translate(text):
-    result = google_translator.translate(text, dest='en')
-    return result.text
     
 def deepl_translate(text):
     result = deepl_translator.translate_text(text, target_lang='EN-GB')
     return result.text
 
 def detect_ru(text):
-    if google_translator.detect(text).lang == 'en':
-        return False
-    else:
+    languages = [Language.ENGLISH, Language.RUSSIAN, Language.PORTUGUESE, Language.SPANISH]
+    detector = LanguageDetectorBuilder.from_languages(*languages).build()
+    language = detector.detect_language_of(text)
+    if language.RUSSIAN:
         return True
+    else:
+        return False
 
 @bot.message_handler(commands=['start'])
 def start(message):
@@ -85,7 +83,7 @@ def message_text_handler(message):
         logger.info(f"Received message from {message.from_user.id}")
     try:
         if detect_ru(remove_emoji(message.text)):
-            bot.reply_to(message, google_translate(message.text))
+            bot.reply_to(message, deepl_translate(message.text))
         else:
             pass
     except:
@@ -99,7 +97,7 @@ def message_media_handler(message):
         logger.info(f"Received message from {message.from_user.id}")
     try:
         if detect_ru(remove_emoji(message.text)):
-            bot.reply_to(message, google_translate(message.caption))
+            bot.reply_to(message, deepl_translate(message.caption))
         else:
             pass
     except:

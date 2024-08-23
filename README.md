@@ -1,4 +1,4 @@
-# Telegram "Google Translate" bot written in Python
+# Telegram "DeepL Translate" bot written in Python
 
 This bot was inspired by a wish to make my personal blog-channel understandable for my english-speaking colleagues and friends. 
 
@@ -11,7 +11,7 @@ You can't change the language this bot translates to (only to English).
 
 To use this bot just install requirements:
 ```
-pip install -r requirements.txt
+pipenv install
 ```
 Set your bot telegram token as environment variable:
 ```
@@ -20,6 +20,6 @@ export TOKEN='your-token-value'
 Or you can set it explicitly in the `config.py` file.
 And then run the python script:
 ```
-python translatebot.py
+pipenv run python translatebot.py
 ```
 Bot writes all occurred exceptions to the log file `bot.log`
