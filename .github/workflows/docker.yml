@@ -1,0 +1,21 @@
+name: Docker
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: oracle
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Build Docker image
+      run: |
+        docker build -t translatebot .
+
+    - name: Restart Docker image
+      run: |
+        docker rm -f translatebot
+        docker run -d --restart unless-stopped --name translatebot -e TOKEN=${{ secrets.TOKEN }} -e DEEPL_TOKEN=${{ secrets.DEEPL_TOKEN }} translatebot

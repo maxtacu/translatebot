@@ -1,0 +1,9 @@
+target-version = "py311"
+line-length = 120
+
+[lint.pydocstyle]
+convention = "google"
+
+[format]
+indent-style = "tab"
+docstring-code-format = true
