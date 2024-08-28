@@ -18,6 +18,9 @@ jobs:
       run: |
         docker build -t translatebot .
 
+  deploy:
+    runs-on: oracle
+    steps:
     - name: Restart Docker image
       run: |
         docker rm -f translatebot
